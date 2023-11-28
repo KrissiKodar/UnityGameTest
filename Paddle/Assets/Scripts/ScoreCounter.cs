@@ -14,6 +14,6 @@ public class ScoreCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        scoreLabel.text = GameManager.instance.score.ToString();
+        scoreLabel.text = "Pts." + GameManager.instance.score.ToString();
     }
 }

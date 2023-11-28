@@ -161,9 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69696f65dcd54c84196ea69142e4a2ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
   body: {fileID: 3491804702099022207}
   direction: {x: 1, y: 0}
-  impulse: 5
+  impulse: 2.5
   maxReflectAngle: 40
   diameter: 1

@@ -59,6 +59,21 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /* float ballAngle = Vector2.Angle(transform.position, body.velocity);
+        float x = transform.position.x;
+        float y = transform.position.y;
+        
+        
+        if (ballAngle < 90 && (x < -xLevelBound - radius || x > xLevelBound + radius || 
+                               y < -yLevelBound - radius || y > yLevelBound + radius))
+        {
+            Reset();
+        }  */
+    }
+
+
+    void FixedUpdate()
+    {
         float ballAngle = Vector2.Angle(transform.position, body.velocity);
         float x = transform.position.x;
         float y = transform.position.y;
@@ -70,6 +85,7 @@ public class BallController : MonoBehaviour
             Reset();
         } 
     }
+
 
     public void Reset()
     {
@@ -108,6 +124,7 @@ public class BallController : MonoBehaviour
 
                 if (ballAngle < 90)
                 {
+                    Debug.Log("hit");
                     // Reflect the ball's velocity about the paddle normal to get the bounce velocity
                     Vector2 reflectedVelocity = Vector2.Reflect(body.velocity, paddleNormal);
 
@@ -155,6 +172,8 @@ public class BallController : MonoBehaviour
                 // Reset score
                 GameManager.instance.score = 0;
                 //Instantiate(Ball);
+                // Reset time
+                GameManager.instance.timeElapsed = 0;
                 Destroy(gameObject);
                 
 

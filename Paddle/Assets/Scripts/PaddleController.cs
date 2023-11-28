@@ -10,6 +10,9 @@ public class PaddleController : MonoBehaviour
     bool wantsToRotateCCW;
     bool wantsToRotateCW;
 
+    bool wantsToRotateCCW_k;
+    bool wantsToRotateCW_k;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,18 +24,29 @@ public class PaddleController : MonoBehaviour
     {
         wantsToRotateCCW = Input.GetMouseButton(0);
         wantsToRotateCW = Input.GetMouseButton(1);
+        wantsToRotateCCW_k =  Input.GetKey("a");
+        wantsToRotateCW_k = Input.GetKey("d");
+        if (wantsToRotateCCW || wantsToRotateCCW_k || wantsToRotateCW || wantsToRotateCW_k)
+        {
+            GameManager.instance.currentEnergy -= GameManager.instance.energyDrainRate*Time.deltaTime;
+        }
+
     }
 
     void FixedUpdate()
     {
-        if (wantsToRotateCCW)
+        if (0 < GameManager.instance.currentEnergy)
         {
-            transform.Rotate(0, 0, rotationSpeed * Time.fixedDeltaTime);
+            if (wantsToRotateCCW || wantsToRotateCCW_k)
+            {
+                transform.Rotate(0, 0, rotationSpeed * Time.fixedDeltaTime);
+            }
+            else if (wantsToRotateCW || wantsToRotateCW_k)
+            {
+                transform.Rotate(0, 0, -rotationSpeed * Time.fixedDeltaTime);
+            }
         }
-        else if (wantsToRotateCW)
-        {
-            transform.Rotate(0, 0, -rotationSpeed * Time.fixedDeltaTime);
-        }
+        
         
     }
 
