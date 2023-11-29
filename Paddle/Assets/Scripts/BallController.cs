@@ -28,8 +28,8 @@ public class BallController : MonoBehaviour
         scale = diameter / currentDiameter;
         radius = diameter / 2f;
         transform.localScale = new Vector3(scale, scale, 1);
-        Debug.Log(xLevelBound);
-        Debug.Log(yLevelBound);
+        //Debug.Log(xLevelBound);
+        //Debug.Log(yLevelBound);
         
         startPosition = GetRandomStartPosition();
         Reset();
@@ -82,7 +82,8 @@ public class BallController : MonoBehaviour
         if (ballAngle < 90 && (x < -xLevelBound - radius || x > xLevelBound + radius || 
                                y < -yLevelBound - radius || y > yLevelBound + radius))
         {
-            Reset();
+            //Reset();
+            Destroy(gameObject);
         } 
     }
 
@@ -110,10 +111,10 @@ public class BallController : MonoBehaviour
         {
             Rigidbody2D paddleRigidbody = other.attachedRigidbody;
             // Handle paddle collision
-            Debug.Log("Paddle hit");
+            //Debug.Log("Paddle hit");
             if (paddleRigidbody != null)
             {
-                Debug.Log("Paddle physics");
+                //Debug.Log("Paddle physics");
                 AudioSource paddleAudio = other.GetComponent<AudioSource>();
                 if (paddleAudio != null) paddleAudio.Play();
 
@@ -124,7 +125,7 @@ public class BallController : MonoBehaviour
 
                 if (ballAngle < 90)
                 {
-                    Debug.Log("hit");
+                    //Debug.Log("hit");
                     // Reflect the ball's velocity about the paddle normal to get the bounce velocity
                     Vector2 reflectedVelocity = Vector2.Reflect(body.velocity, paddleNormal);
 
@@ -170,10 +171,17 @@ public class BallController : MonoBehaviour
                 // Subtract points!
                 //GameManager.instance.score--;
                 // Reset score
+                if (GameManager.instance.score > GameManager.instance.highScore)
+                {
+                    Debug.Log("Setting new high score");
+                    GameManager.instance.highScore = GameManager.instance.score;
+                }
                 GameManager.instance.score = 0;
                 //Instantiate(Ball);
                 // Reset time
                 GameManager.instance.timeElapsed = 0;
+                // Reset higherWaiting to its initial value
+                GameManager.instance.higherWaiting = GameManager.instance.initialHigherWaiting;
                 Destroy(gameObject);
                 
 

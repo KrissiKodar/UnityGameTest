@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreCounter : MonoBehaviour
+public class HighScoreCounter : MonoBehaviour
 {
-    public TMPro.TextMeshProUGUI scoreLabel;
+    public TMPro.TextMeshProUGUI highScoreLabel;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +14,6 @@ public class ScoreCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        scoreLabel.text = "Score:" + GameManager.instance.score.ToString();
+        highScoreLabel.text = "High Score: " + GameManager.instance.highScore.ToString();
     }
 }
