@@ -114,9 +114,17 @@ public class BallController : MonoBehaviour
             //Debug.Log("Paddle hit");
             if (paddleRigidbody != null)
             {
+                
+                
                 //Debug.Log("Paddle physics");
-                AudioSource paddleAudio = other.GetComponent<AudioSource>();
-                if (paddleAudio != null) paddleAudio.Play();
+                if (GameOver.gameOver == false)
+                {
+                    AudioSource paddleAudio = other.GetComponent<AudioSource>();
+                    if (paddleAudio != null) paddleAudio.Play();
+                    // Score points!
+                    GameManager.instance.score++;
+                }
+                
 
                 Vector2 paddleNormal = other.transform.up;
 
@@ -149,8 +157,7 @@ public class BallController : MonoBehaviour
                     // Update the ball's velocity to bounce it away
                     body.velocity = -reflectedVelocity;
 
-                    // Score points!
-                    GameManager.instance.score++;
+                    
 
 
                     //Instantiate(Ball);
@@ -166,25 +173,34 @@ public class BallController : MonoBehaviour
             
             if (blackholeRigidbody != null)
             {
-                AudioSource blackholeAudio = other.GetComponent<AudioSource>();
-                if (blackholeAudio != null) blackholeAudio.Play();
-                // Subtract points!
-                //GameManager.instance.score--;
-                // Reset score
-                if (GameManager.instance.score > GameManager.instance.highScore)
+                if (GameOver.gameOver == false)
                 {
-                    Debug.Log("Setting new high score");
-                    GameManager.instance.highScore = GameManager.instance.score;
+                    AudioSource blackholeAudio = other.GetComponent<AudioSource>();
+                    if (blackholeAudio != null) blackholeAudio.Play();
+                    // Subtract points!
+                    //GameManager.instance.score--;
+                    // Reset score
+                    if (GameManager.instance.score > PlayerPrefs.GetInt("HighScore", 0))
+                    {
+                        Debug.Log("Setting new high score");
+                        //GameManager.instance.highScore = GameManager.instance.score;
+                        PlayerPrefs.SetInt("HighScore", GameManager.instance.score);
+                        PlayerPrefs.Save();
+                    }
+                    
+                    //Instantiate(Ball);
+                    // Reset time
+                    GameManager.instance.timeElapsed = 0;
+                    // Reset higherWaiting to its initial value
+                    GameManager.instance.higherWaiting = GameManager.instance.initialHigherWaiting;
+                    
+                    FindObjectOfType<GameOver>().OnGameOver();
+                    Destroy(gameObject);
                 }
-                GameManager.instance.score = 0;
-                //Instantiate(Ball);
-                // Reset time
-                GameManager.instance.timeElapsed = 0;
-                // Reset higherWaiting to its initial value
-                GameManager.instance.higherWaiting = GameManager.instance.initialHigherWaiting;
-                Destroy(gameObject);
-                
-
+                else 
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

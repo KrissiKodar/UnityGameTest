@@ -11,6 +11,10 @@ public class MeteorSpawner : MonoBehaviour
     public static float yLevelBound;
     public static float xLevelBound;
 
+    public float spawn2Prob;
+    public float spawn4Prob;
+    public float spawn8Prob;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,18 +35,15 @@ public class MeteorSpawner : MonoBehaviour
         while (true) {
             float randomNumber = Random.value;
 
-            if (randomNumber < 0.05) {
-                // 5% chance to spawn 8 meteorites
+            if (randomNumber < spawn8Prob) {
                 for (int i = 0; i < 8; i++) {
                     Instantiate(Ball);
                 }
-            } else if (randomNumber < 0.15) {
-                // Additional 10% chance (total 15% - previous 5%) to spawn 4 meteorites
+            } else if (randomNumber < spawn8Prob + spawn4Prob) {
                 for (int i = 0; i < 4; i++) {
                     Instantiate(Ball);
                 }
-            } else if (randomNumber < 0.35) {
-                // Additional 20% chance (total 35% - previous 15%) to spawn 2 meteorites
+            } else if (randomNumber < spawn8Prob + spawn4Prob + spawn2Prob) {
                 for (int i = 0; i < 2; i++) {
                     Instantiate(Ball);
                 }
